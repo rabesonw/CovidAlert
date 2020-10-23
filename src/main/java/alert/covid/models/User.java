@@ -16,15 +16,15 @@ public class User{
     private String email;
     private String phone_number;
     private String password;
-    private String state;
+    private String state_user;
 
 
     public String getState() {
-        return state;
+        return state_user;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setState(String state_user) {
+        this.state_user = state_user;
     }
 
 
