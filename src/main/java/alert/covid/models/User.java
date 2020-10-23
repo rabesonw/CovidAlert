@@ -18,6 +18,13 @@ public class User{
     private String password;
     private String state_user;
 
+    @ManyToMany
+    @JoinTable(
+            name="was_at",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="location_id")
+    ) private List<Location> locations;
+
 
     public String getState() {
         return state_user;
@@ -79,5 +86,19 @@ public class User{
     }
 
 
+    public String getState_user() {
+        return state_user;
+    }
 
+    public void setState_user(String state_user) {
+        this.state_user = state_user;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
 }
