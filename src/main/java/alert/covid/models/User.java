@@ -1,5 +1,7 @@
 package alert.covid.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -25,14 +27,16 @@ public class User{
             inverseJoinColumns = @JoinColumn(name="location_id")
     ) private List<Location> locations;
 
+    @ManyToMany
+    @JoinTable(
+            name="passed",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="test_id")
+    ) private List<CovidTest> covidTests;
 
-    public String getState() {
-        return state_user;
-    }
-
-    public void setState(String state_user) {
-        this.state_user = state_user;
-    }
+    @ManyToMany(mappedBy = "user_alerts")
+    @JsonIgnore
+    private List<Alert> alerts_user;
 
 
     public long getUser_id() {
@@ -101,4 +105,6 @@ public class User{
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
+
+
 }
