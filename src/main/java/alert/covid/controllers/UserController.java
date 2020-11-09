@@ -24,9 +24,10 @@ public class UserController {
 
     @GetMapping
     @RequestMapping("{id}")
-    public User get(@PathVariable Long id){
+    public User get(@PathVariable long id){
         return userRepository.getOne(id);
     }
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody final User user){

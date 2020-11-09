@@ -1,8 +1,10 @@
 package alert.covid.models;
 
+import alert.covid.enums.StateCovid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 @Entity(name="users")
@@ -13,12 +15,16 @@ public class User{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
 
+    private String username;
     private String first_name;
     private String last_name;
     private String email;
     private String phone_number;
     private String password;
-    private String state_user;
+
+    @Enumerated(EnumType.STRING)
+    private StateCovid state_user = StateCovid.OK;
+    private boolean enabled;
 
     @ManyToMany
     @JoinTable(
@@ -90,11 +96,11 @@ public class User{
     }
 
 
-    public String getState_user() {
+    public StateCovid getState_user() {
         return state_user;
     }
 
-    public void setState_user(String state_user) {
+    public void setState_user(StateCovid state_user) {
         this.state_user = state_user;
     }
 
@@ -107,4 +113,19 @@ public class User{
     }
 
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }
