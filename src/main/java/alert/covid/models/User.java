@@ -4,12 +4,12 @@ import alert.covid.enums.StateCovid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.swing.plaf.nimbus.State;
 import java.util.List;
 
 @Entity(name="users")
 @Access(AccessType.FIELD)
 public class User{
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,4 +128,5 @@ public class User{
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
 }
