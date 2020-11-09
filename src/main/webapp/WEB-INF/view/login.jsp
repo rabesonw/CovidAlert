@@ -33,6 +33,9 @@
     <% if(request.getParameter("confirm") != null) { %>
     <div class="alert alert-success" role="alert">User creation is confirmed. Please log in</div>
     <% } %>
+    <% if(request.getParameter("confirm") != null) { %>
+    <div class="alert alert −success" role="alert">User creation is confirmed. Please log in </div >
+    <% } %>
     <form:form action="/doLogin" method="POST">
         <label for="username">Username: </label>
         <input type="text" id="username" name="username"/>

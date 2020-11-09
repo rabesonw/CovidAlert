@@ -33,6 +33,10 @@
     <% if(request.getParameter("expired") != null) { %>
     <div class="errorblock">The registration has expired. Please re-sign-up</div>
     <% } %>
+    <% if(request.getParameter("expired") != null) { %>
+    <div class="errorblock">The registration has expired. Please re−sign−up</div>
+    <% } %>
+
     <form:form modelAttribute="user" method="POST" action="/doRegister">
         <form:errors path="*" cssClass="errorblock" element="div"/>
         <div><label for="username"></label>Username: <input class="form-control" type="text" name="username" id="username" placeholder="Enter username"></div>
