@@ -21,15 +21,28 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public User create(@RequestBody final User user){
+        return userRepository.saveAndFlush(user);
+    }
+
+
     @GetMapping
     @RequestMapping("{id}")
     public User get(@PathVariable Long id){
         return userRepository.getOne(id);
     }
-    
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody final User user){
+
+    @DeleteMapping
+    @RequestMapping("{id}")
+    public void delete(@PathVariable Long id){
+        userRepository.deleteById(id);
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public User update(@RequestBody final User user){
         return userRepository.saveAndFlush(user);
     }
 
