@@ -35,7 +35,6 @@ public class UserController {
     }
 
     @DeleteMapping
-    @RequestMapping("{id}")
     public void delete(@PathVariable Long id){
         userRepository.deleteById(id);
     }
@@ -45,7 +44,5 @@ public class UserController {
     public User update(@RequestBody final User user){
         return userRepository.saveAndFlush(user);
     }
-
-
 
 }
