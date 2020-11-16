@@ -30,6 +30,7 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(final HttpSecurity httpSecurity) throws  Exception {
         httpSecurity
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/login*").permitAll()
