@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 @Controller
 public class ViewController {
@@ -71,7 +71,7 @@ public class ViewController {
             return "register.jsp?user=true";
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setEnabled(true);
+//            user.setEnabled(true);
             user.setState_user(StateCovid.OK);
             userRepository.saveAndFlush(user);
             Authority auth = new Authority();
@@ -83,14 +83,14 @@ public class ViewController {
     }
 
     @GetMapping ({"/userConfirm"})
-    public String confirmUser(@RequestParam("token") String token ) {
+    public String confirmUser(@RequestParam("token") String token) {
         VerificationToken verifToken = verificationTokenRepository.getOne(token);
         if(verifToken != null) {
-            Date date = (Date) Calendar.getInstance().getTime();
+            Date date = Calendar.getInstance().getTime();
             if(date.before(verifToken.getExpiryDate())) {
                 verificationTokenRepository.delete(verifToken);
-                User user = userRepository.findByUsername(verifToken.getUsername ( ) ) ;
-                user.setEnabled(true) ;
+                User user = userRepository.findByUsername(verifToken.getUsername());
+                user.setEnabled(true);
                 userRepository.saveAndFlush(user);
                 return "login.jsp?confirm=true";
             }else {
@@ -98,7 +98,7 @@ public class ViewController {
                 return "register.jsp?expired=true";
             } }
         else {
-            return "register.jsp?confirm=false"; }
+            return "register.jsp?expired=false"; }
     }
 
 }

@@ -19,8 +19,8 @@ public class UserListener implements ApplicationListener<OnCreateUserEvent > {
     public void onApplicationEvent (OnCreateUserEvent event){
         this.confirmCreateUser(event) ; }
 
+    private String serverUrl = "http://localhost:8080";
 
-    private String serverUrl = "http :// localhost:8080";
     @Autowired
     private JavaMailSender mailSender ;
 
@@ -34,7 +34,7 @@ public class UserListener implements ApplicationListener<OnCreateUserEvent > {
         String token = UUID.randomUUID().toString();
         VerificationToken verifToken = new VerificationToken();
 
-        verifToken.setToken ( token ) ;
+        verifToken.setToken (token) ;
         verifToken.setUsername(user.getUsername());
         verifToken.setExpiryDate(verifToken.calculateExpiryDate(VerificationToken.EXPIRATION));
 
@@ -42,7 +42,7 @@ public class UserListener implements ApplicationListener<OnCreateUserEvent > {
 
         String recipientAddess = user.getEmail();
         String subject ="User Account Confirmation";
-        String confirmationUrl=event.getAppUrl()+"userConfirm?token ="+token;
+        String confirmationUrl=event.getAppUrl()+"userConfirm?token="+token;
         String message = "Please confirm:";
         
         SimpleMailMessage email = new SimpleMailMessage();
