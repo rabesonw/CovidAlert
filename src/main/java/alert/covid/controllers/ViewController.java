@@ -71,7 +71,6 @@ public class ViewController {
             return "register.jsp?user=true";
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setEnabled(true);
             user.setState_user(StateCovid.OK);
             userRepository.saveAndFlush(user);
             Authority auth = new Authority();
