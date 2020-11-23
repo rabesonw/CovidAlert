@@ -18,6 +18,15 @@ public class Location {
     private BigDecimal longitude;
     private LocalDateTime location_date;
 
+    public Location(long location_id, BigDecimal latitude, LocalDateTime location_date) {
+        this.location_id = location_id;
+        this.latitude = latitude;
+        this.location_date = location_date;
+    }
+
+    public Location() {
+    }
+
     @ManyToMany(mappedBy = "locations")
     @JsonIgnore
     private List<User> users;
