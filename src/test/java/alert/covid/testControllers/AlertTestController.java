@@ -1,7 +1,7 @@
 package alert.covid.testControllers;
 
-import alert.covid.models.Location;
-import alert.covid.repositories.LocationRepository;
+import alert.covid.models.Alert;
+import alert.covid.repositories.AlertRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,40 +16,36 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import java.util.Optional;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import org.springframework.data.repository.CrudRepository;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TestLocationController {
+public class AlertTestController {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private LocationRepository locationRepository;
+    private AlertRepository alertRepository;
 
     @Test
-    @DisplayName("GET /locations - FOUND")
+    @DisplayName("GET /alerts - FOUND")
     public void getLocations() throws Exception {
-        this.mockMvc.perform(get("/locations"))
+        this.mockMvc.perform(get("/alerts"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("GET /locations/1 - FOUND")
+    @DisplayName("GET /alerts/1 - FOUND")
     public void getOneLocation() throws Exception {
-        Location mockLocation = new Location();
-        mockLocation.setLocation_id(1);
+        Alert mockAlert = new Alert();
+        mockAlert.setAlert_id(1);
 
-        doReturn(Optional.of(mockLocation)).when(locationRepository).findById((long) 1);
+        doReturn(Optional.of(mockAlert)).when(alertRepository).findById((long) 1);
 
-        mockMvc.perform(get("/locations/{id}", 1))
+        mockMvc.perform(get("/alerts/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(header().string(HttpHeaders.ETAG, "\"1\""))
@@ -57,11 +53,11 @@ public class TestLocationController {
     }
 
     @Test
-    @DisplayName("GET /locations/1 - NOT FOUND")
+    @DisplayName("GET /alerts/1 - NOT FOUND")
     public void cannotGetLocation() throws Exception {
-        doReturn(Optional.empty()).when(locationRepository).findById((long) 1);
+        doReturn(Optional.empty()).when(alertRepository).findById((long) 1);
 
-        mockMvc.perform(get("/locations/{id}", 1))
+        mockMvc.perform(get("/alerts/{id}", 1))
                 .andExpect(status().isNotFound());
     }
 
