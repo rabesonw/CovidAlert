@@ -70,4 +70,13 @@ public class Location {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", location_date=" + location_date +
+                '}';
+    }
 }
