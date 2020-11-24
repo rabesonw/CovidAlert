@@ -36,11 +36,13 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/doLogin*").permitAll()
                 .antMatchers("/register*").permitAll()
+                .antMatchers("/locations*").permitAll()
                 .antMatchers("/doRegister*").permitAll()
                 .antMatchers("/userConfirm").permitAll()
                 .antMatchers ( "/userConfirm").permitAll()
                 .antMatchers("/static/css/","/static/js/","/images/*").permitAll()
                 .antMatchers("/index").permitAll()
+                .antMatchers("/createLocation").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -59,6 +61,8 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .permitAll();
+        httpSecurity.csrf().disable();
+        httpSecurity.cors();
     }
 
     @Override

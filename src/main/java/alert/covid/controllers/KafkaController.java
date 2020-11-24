@@ -21,15 +21,15 @@ public class KafkaController {
     @PostMapping({"/createLocation"})
     public void sendMessageToKafkaTopic2(
 
-            @RequestParam("latitude") BigDecimal latitude,
-            @RequestParam("longitude") BigDecimal longitude,
-            @RequestParam("location_date") LocalDateTime location_date ){
+            @RequestParam("latitude") String latitude,
+            @RequestParam("longitude") String longitude
+            /*@RequestParam("location_date") String location_date*/ ){
 
         System.out.println("AFISEAZAAAAAA");
         Location location = new Location();
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
-        location.setLocation_date(location_date);
+        location.setLatitude(Double.parseDouble(latitude));
+        location.setLongitude(Double.parseDouble(longitude));
+        //location.setLocation_date(location_date);
 
         this.kafkaProducer.sendLocation(location, "my_topic");
     }

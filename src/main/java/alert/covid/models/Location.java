@@ -14,14 +14,13 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long location_id;
-    private BigDecimal latitude;
-    private BigDecimal longitude;
+    private double latitude;
+    private double longitude;
     private LocalDateTime location_date;
 
-    public Location(long location_id, BigDecimal latitude, LocalDateTime location_date) {
-        this.location_id = location_id;
+    public Location(double latitude, double longitude) {
         this.latitude = latitude;
-        this.location_date = location_date;
+        this.longitude = longitude;
     }
 
     public Location() {
@@ -39,19 +38,19 @@ public class Location {
         this.location_id = location_id;
     }
 
-    public BigDecimal getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public BigDecimal getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(BigDecimal longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -76,7 +75,6 @@ public class Location {
         return "Location{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", location_date=" + location_date +
                 '}';
     }
 }

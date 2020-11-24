@@ -23,7 +23,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "my_topic", groupId = "my−topic")
     public void consume(Location location) {
-        locationRepository.saveAndFlush(location);
+        //locationRepository.saveAndFlush(location);
         LOG.info(String.format("Location -> %s", location));
     }
 
