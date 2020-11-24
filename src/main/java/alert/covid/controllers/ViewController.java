@@ -68,9 +68,6 @@ public class ViewController {
     @GetMapping({"/register"})
     public String register() { return "register"; }
 
-    @GetMapping({"/locations"})
-    public String location() { return "locations"; }
-
     @PostMapping({"/doRegister"})
     public String register(@Valid @ModelAttribute("user") User user, BindingResult result) {
         if(userRepository.existsUserByUsername(user.getUsername())) {
