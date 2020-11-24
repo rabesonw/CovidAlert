@@ -2,6 +2,7 @@ package alert.covid.controllers;
 
 import alert.covid.models.User;
 import alert.covid.repositories.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -46,8 +47,10 @@ public class UserController {
     @PutMapping
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public User update(@RequestBody final User user){
-        return userRepository.saveAndFlush(user);
+    public User update(@PathVariable Long id, @RequestBody User user){
+        User existingUser = userRepository.getOne(id);
+        BeanUtils.copyProperties(user, existingUser, "user_id");
+        return userRepository.saveAndFlush(existingUser);
     }
 
 }

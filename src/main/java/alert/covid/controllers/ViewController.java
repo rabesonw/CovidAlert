@@ -14,10 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Calendar;
@@ -50,6 +47,7 @@ public class ViewController {
     @GetMapping({"/login"})
     public String login() { return "login"; }
 
+
     @GetMapping({"/changeUser"})
     public String changeUser() { return "changeUser"; }
 
@@ -60,6 +58,11 @@ public class ViewController {
     @PostMapping({"/doLogin"})
     public String doLogin(@ModelAttribute("user") User user) {
         return "login";
+    }
+
+    @RequestMapping(value = "/myAccount", method = RequestMethod.GET)
+    public String myAccount() {
+        return "my_account";
     }
 
     @GetMapping({"/register"})
