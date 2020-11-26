@@ -85,7 +85,7 @@ public class KafkaConsumer {
 
             double distanceMeter = DistanceCalculator.distance(location.getLatitude(),location.getLongitude(),usernameList.get(i).getLatitude(),usernameList.get(i).getLongitude(), "K")*1000;
 
-            if ((distanceMeter<=2) && (getKey(usernameList,location)!= username)){
+            if ((distanceMeter<=2) && (getKey(usernameList,location)!= username) && (usernameList.get(i).getLocation_date() == location.getLocation_date())){
                     User user1 = userRepository.findByUsername(username);
                     User user2 = userRepository.findByUsername(getKey(usernameList,usernameList.get(i)));
                     if(user1.getState_user()== StateCovid.malade){
