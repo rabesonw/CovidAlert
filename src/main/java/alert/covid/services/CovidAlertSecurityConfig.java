@@ -52,6 +52,10 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/",true)
                 .and()
                 .rememberMe()
+                .key ("cleSuperSecrete")
+                .tokenRepository(tokenRepository())
+                .and()
+                .rememberMe()
                 .key("cleSuperSecrete")
                 .tokenRepository(tokenRepository())
                 .and()
@@ -84,4 +88,6 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
         token.setDataSource(dataSource);
         return token;
     }
+
+    
 }
