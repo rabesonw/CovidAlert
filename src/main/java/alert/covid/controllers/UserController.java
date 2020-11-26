@@ -37,6 +37,12 @@ public class UserController {
         return userRepository.getOne(id);
     }
 
+    @GetMapping
+    @RequestMapping(value="{username}", method=RequestMethod.GET)
+    public User getByUsername(@PathVariable String username) {
+        return userRepository.findByUsername(username);
+    }
+
     @DeleteMapping
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @Secured("ROLE_ADMIN")

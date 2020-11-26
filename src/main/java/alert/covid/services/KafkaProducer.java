@@ -17,5 +17,4 @@ public class KafkaProducer {
         logger.info(String.format("[Producer] Location created -> %s", location));
         this.kafkaTemplate.send("my_topic", location);
     }
-
 }
