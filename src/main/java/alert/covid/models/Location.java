@@ -26,9 +26,14 @@ public class Location {
     public Location() {
     }
 
-    @ManyToMany(mappedBy = "locations")
-    @JsonIgnore
-    private List<User> users;
+    //@ManyToMany(mappedBy = "locations")
+    //@JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name="was_at",
+            joinColumns = @JoinColumn(name="location_id"),
+            inverseJoinColumns = @JoinColumn(name="user_id")
+    ) private List<User> users;
 
     public long getLocation_id() {
         return location_id;
