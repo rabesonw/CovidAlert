@@ -33,7 +33,6 @@ public class KafkaConsumer {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Bean
     public String username() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -49,7 +48,6 @@ public class KafkaConsumer {
 
     }
 
-    String username= username();
     HashMap<String, Location> usernameList = new HashMap<String, Location>();
     //private List <Location> locationList = new ArrayList<>();
    // private List <String> usernameList = new ArrayList<>();
@@ -66,6 +64,8 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "my_topic", groupId = "my−topic")
     public void consume(Location location) {
+
+        String username= this.username();
         //locationRepository.saveAndFlush(location);
         LOG.info(String.format("Location -> %s", location));
 
@@ -94,7 +94,7 @@ public class KafkaConsumer {
                         sendEmail(user2.getEmail(), object, message);
                     } else if (user1.getState_user()==StateCovid.cas_contact){
                         String object="Interaction cas contact covid";
-                        String message="Vous avez eu contact avec une personne cas contact qui est possible d'avoir le virus...";
+                        String message="Vous avez eu contact avec une personne cas contact qui est susceptible d'avoir le virus...";
                         sendEmail(user2.getEmail(), object, message);
                     } else if ((user2.getState_user() == StateCovid.malade)) {
                         String object="Interaction malade covid";
@@ -102,7 +102,7 @@ public class KafkaConsumer {
                         sendEmail(user1.getEmail(), object, message);
                     }else if(user2.getState_user() == StateCovid.cas_contact){
                         String object="Interaction cas contact covid";
-                        String message="Vous avez eu contact avec une personne cas contact qui est possible d'avoir le virus...";
+                        String message="Vous avez eu contact avec une personne cas contact qui est susceptible d'avoir le virus...";
                         sendEmail(user1.getEmail(), object, message);
                     }
 
