@@ -1,0 +1,33 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'alert'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '15'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation group :'org.springframework.kafka',name:'spring-kafka',version:'2.6.2'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	runtimeOnly 'org.apache.tomcat.embed:tomcat-embed-jasper'
+}
+
+test {
+	useJUnitPlatform()
+}

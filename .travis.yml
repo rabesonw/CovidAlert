@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - openjdk15
+sudo: required
+before_install:
+  - chmod +x gradlew
+git:
+  depth: false
+branches:
+  only:
+    - Dev
