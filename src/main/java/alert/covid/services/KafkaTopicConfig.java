@@ -4,7 +4,9 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.config.TopicBuilder;
-
+/**
+ * KafkaTopicConfig to create a topic
+ */
 public class KafkaTopicConfig {
     @Bean
     public NewTopic topic1 () {

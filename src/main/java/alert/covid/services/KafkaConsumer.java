@@ -20,10 +20,14 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
-
+/**
+ * KafkaConsumer to subscribe to Kafka topics and receive messages from these topics
+ */
 @Service
 public class KafkaConsumer {
+
     Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
+
     @Autowired
     private LocationRepository locationRepository;
 
@@ -33,12 +37,18 @@ public class KafkaConsumer {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    /**
+     * Function to return the connected user
+     * @return String of the connected username
+     */
     public String username() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         return currentPrincipalName;
     }
-
+    /**
+     * Function to send an email
+     */
     void sendEmail(String adress,String object,  String message) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(adress);
@@ -47,11 +57,15 @@ public class KafkaConsumer {
         javaMailSender.send(msg);
 
     }
-
+    /**
+     * HashMap for location and user storage
+     */
     HashMap<String, Location> usernameList = new HashMap<String, Location>();
-    //private List <Location> locationList = new ArrayList<>();
-   // private List <String> usernameList = new ArrayList<>();
 
+    /**
+     * Function to return the key of pair
+     * @return the key in function of it's type
+     */
     public <K, V> K getKey(Map<K, V> map, V value) {
         for (Map.Entry<K, V> entry : map.entrySet()) {
             if (entry.getValue().equals(value)) {
@@ -61,30 +75,38 @@ public class KafkaConsumer {
         return null;
     }
 
-
+    /**
+     * Kafka function for retrieving the message depending on the topic and group
+     */
     @KafkaListener(topics = "my_topic", groupId = "my−topic")
     public void consume(Location location) {
-
+        /**
+         * variable for storage the connected username
+         */
         String username= this.username();
-        //locationRepository.saveAndFlush(location);
+
+        /** For displaying the location in the console*/
         LOG.info(String.format("Location -> %s", location));
 
         LocalDateTime data = LocalDateTime.now();
         location.setLocation_date(data);
 
-        //verify if user already exists in the array and the location/time of him
+
+
         for (String i : usernameList.keySet()) {
+            /**verify if the user already exists in the HashMap with an other location */
             if(usernameList.containsKey(username) ){
                 if((usernameList.get(i).getLatitude() != location.getLatitude()) || (usernameList.get(i).getLongitude() != location.getLongitude()) || (usernameList.get(i).getLocation_date() != location.getLocation_date())) {
                     usernameList.replace(username, location);
                 }
             }else {
                 usernameList.put(username,location);
+                /** Calling the saveAndFlash function to enter the location in the database*/
                 locationRepository.saveAndFlush(location);
             }
-
+            /** computing the distance between the current user and other users in the database*/
             double distanceMeter = DistanceCalculator.distance(location.getLatitude(),location.getLongitude(),usernameList.get(i).getLatitude(),usernameList.get(i).getLongitude(), "K")*1000;
-
+            /** Sending an alert by email based on the health status of the users the main user came in contact with */
             if ((distanceMeter<=2) && (getKey(usernameList,location)!= username) && (usernameList.get(i).getLocation_date() == location.getLocation_date())){
                     User user1 = userRepository.findByUsername(username);
                     User user2 = userRepository.findByUsername(getKey(usernameList,usernameList.get(i)));
