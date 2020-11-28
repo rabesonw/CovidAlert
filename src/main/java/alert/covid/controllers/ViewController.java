@@ -20,6 +20,10 @@ import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Class View Controller to serve views to the client
+ */
+
 @Controller
 public class ViewController {
 
@@ -38,36 +42,71 @@ public class ViewController {
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
+    /***
+     * GET mapping for error page
+     * @return String of error page to load
+     */
     @GetMapping({"/error"})
     public String error() { return "error"; }
 
+    /***
+     * GET mapping for home page
+     * @return String of home page to load
+     */
     @GetMapping({"/", "/index"})
     public String home() { return "index"; }
 
+    /***
+     * GET mapping for login page
+     * @return String of login page to load
+     */
     @GetMapping({"/login"})
     public String login() { return "login"; }
 
-
-    @GetMapping({"/changeUser"})
-    public String changeUser() { return "changeUser"; }
-
+    /***
+     * GET mapping for user list page
+     * Reserved for administrators
+     * @return String of user list page to load
+     */
     @GetMapping({"/listUsers"})
     @Secured("ROLE_ADMIN")
     public String listUsers() { return "listUsers"; }
 
+    /***
+     * POST mapping for logging in
+     * @param user the User to log
+     * @return String the page login to laod
+     */
     @PostMapping({"/doLogin"})
     public String doLogin(@ModelAttribute("user") User user) {
         return "login";
     }
 
+    /***
+     * GET mapping for myAccount page
+     * @return String of the page myAccount to laod
+     */
     @RequestMapping(value = "/myAccount", method = RequestMethod.GET)
     public String myAccount() {
         return "my_account";
     }
 
+    /***
+     * GET mapping for registering
+     * @return String of the register page to load
+     */
     @GetMapping({"/register"})
     public String register() { return "register"; }
 
+    /**
+     * POST mapping to register a user
+     * The user is first added to the Database as an un-verified user
+     * Once registered the user is redirected to the login page so they can login
+     * after verifying their account.
+     * @param user the User to register
+     * @param result yes
+     * @return String of the login page to load
+     */
     @PostMapping({"/doRegister"})
     public String register(@Valid @ModelAttribute("user") User user, BindingResult result) {
         if(userRepository.existsUserByUsername(user.getUsername())) {
@@ -84,6 +123,13 @@ public class ViewController {
         }
     }
 
+    /***
+     * GET mapping to validate a user account
+     * Receives the token to validate the user
+     * Modifies the corresponding user in the database to validate the user
+     * @param token the token given to the user to validate
+     * @return the page to load
+     */
     @GetMapping ({"/userConfirm"})
     public String confirmUser(@RequestParam("token") String token) {
         VerificationToken verifToken = verificationTokenRepository.getOne(token);

@@ -16,6 +16,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
+/**
+ * Class CovidAlertSecurityConfig
+ * Configures the security of the application using Spring Security
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -28,6 +32,13 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
+    /**
+     * Configures the routes accessible to a user that is not yet connected
+     * Handles the connection and opens the routes for the connected user
+     * Handles the logout of the user
+     * @param httpSecurity configurer
+     * @throws Exception
+     */
     protected void configure(final HttpSecurity httpSecurity) throws  Exception {
         httpSecurity
                 .csrf().disable()
@@ -52,10 +63,6 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/",true)
                 .and()
                 .rememberMe()
-                .key ("cleSuperSecrete")
-                .tokenRepository(tokenRepository())
-                .and()
-                .rememberMe()
                 .key("cleSuperSecrete")
                 .tokenRepository(tokenRepository())
                 .and()
@@ -69,6 +76,11 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors();
     }
 
+    /**
+     * Configures the authentication of the user
+     * @param auth Authentication manager
+     * @throws Exception
+     */
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -77,11 +89,19 @@ public class CovidAlertSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource);
     }
 
+    /**
+     * Provides a password encoder
+     * @return PasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Provides a token
+     * @return PersistentTokenRepository
+     */
     @Bean
     public PersistentTokenRepository tokenRepository() {
         JdbcTokenRepositoryImpl token = new JdbcTokenRepositoryImpl();

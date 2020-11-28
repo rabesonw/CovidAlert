@@ -13,11 +13,20 @@ import alert.covid.repositories.VerificationTokenRepository;
 
 import java.util.UUID;
 
+/**
+ * Class UserListener
+ */
 @Component
 public class UserListener implements ApplicationListener<OnCreateUserEvent > {
+
+    /**
+     * Handles the application event when a user is created
+     * @param event
+     */
     @Override
     public void onApplicationEvent (OnCreateUserEvent event){
-        this.confirmCreateUser(event) ; }
+        this.confirmCreateUser(event);
+    }
 
     private String serverUrl = "http://localhost:8080";
 
@@ -27,7 +36,11 @@ public class UserListener implements ApplicationListener<OnCreateUserEvent > {
     @Autowired
     private VerificationTokenRepository verifTokenRepository;
 
-    private void confirmCreateUser ( OnCreateUserEvent event ) {
+    /**
+     * Sends an email to the user so they can validate their account
+     * @param event
+     */
+    private void confirmCreateUser(OnCreateUserEvent event) {
 
         User user = event.getUser();
 

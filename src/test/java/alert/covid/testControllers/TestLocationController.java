@@ -16,14 +16,13 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import java.util.Optional;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import org.springframework.data.repository.CrudRepository;
 
-
+/**
+ * Class TestLocationController
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class TestLocationController {
@@ -34,6 +33,10 @@ public class TestLocationController {
     @MockBean
     private LocationRepository locationRepository;
 
+    /**
+     * Test success for GET mapping of locations
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /locations - FOUND")
     public void getLocations() throws Exception {
@@ -41,6 +44,10 @@ public class TestLocationController {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test success for GET mapping of one location
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /locations/1 - FOUND")
     public void getOneLocation() throws Exception {
@@ -56,6 +63,10 @@ public class TestLocationController {
                 .andExpect((ResultMatcher) jsonPath("$.id", is(1)));
     }
 
+    /**
+     * Test fail for GET mapping of one location
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /locations/1 - NOT FOUND")
     public void cannotGetLocation() throws Exception {

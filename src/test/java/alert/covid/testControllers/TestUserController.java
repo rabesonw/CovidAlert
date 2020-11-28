@@ -1,8 +1,6 @@
 package alert.covid.testControllers;
 
-import alert.covid.models.Location;
 import alert.covid.models.User;
-import alert.covid.repositories.LocationRepository;
 import alert.covid.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,13 +18,14 @@ import java.util.Optional;
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.*;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Class TestUserController
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class TestUserController {
-
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,6 +33,10 @@ public class TestUserController {
     @MockBean
     private UserRepository userRepository;
 
+    /**
+     * Test success for GET mapping of users
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /users - FOUND")
     public void getUsers() throws Exception {
@@ -41,6 +44,10 @@ public class TestUserController {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test success for GET mapping of one user
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /users/1 - FOUND")
     public void getOneUser() throws Exception {
@@ -56,6 +63,10 @@ public class TestUserController {
                 .andExpect((ResultMatcher) jsonPath("$.id", is(1)));
     }
 
+    /**
+     * Test fail for GET mapping of one user
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /users/1 - NOT FOUND")
     public void cannotGetUser() throws Exception {
