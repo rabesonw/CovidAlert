@@ -70,7 +70,6 @@
                     <br/>
                     <label for="longitude">Your longitude</label>
                     <input id="longitude" type="text" id="longitude" name="longitude"/>
-                    <button onclick=showPosition() type="button">Fill form</button>
                     <input type="submit" value="Activate Location" role="button" class="btn btn-lg btn-primary"/>
                 </form:form>
             </div>
